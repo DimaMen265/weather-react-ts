@@ -1,9 +1,12 @@
-import './App.css';
+import React from "react";
+import WeatherApp from "./components/WeatherApp";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div>Hello</div>
+    <>
+      <WeatherApp />
+    </>
   );
-}
+};
 
 export default App;
