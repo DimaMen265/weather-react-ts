@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import WeatherApp from "../components/WeatherApp";
 import axios from "axios";
 
@@ -17,33 +17,25 @@ describe("WeatherApp", () => {
         dt: 1712230000,
       },
     });
-
+    
     render(<WeatherApp />);
-
     fireEvent.change(screen.getByPlaceholderText("Enter city name"), {
       target: { value: "Kyiv" },
     });
-
     fireEvent.click(screen.getByText("Get Weather"));
-
-    await waitFor(() => screen.getByText("Kyiv"));
-
-    expect(screen.getByText("Kyiv")).toBeInTheDocument();
+    
+    expect(await screen.findByText("Kyiv")).toBeInTheDocument();
   });
-
+  
   test("displays error message when city is not found", async () => {
     mockedAxios.get.mockRejectedValueOnce(new Error("City not found"));
-
+    
     render(<WeatherApp />);
-
     fireEvent.change(screen.getByPlaceholderText("Enter city name"), {
       target: { value: "InvalidCity" },
     });
-
     fireEvent.click(screen.getByText("Get Weather"));
-
-    await waitFor(() =>
-      expect(screen.getByText("City not found or API error.")).toBeInTheDocument()
-    );
+    
+    expect(await screen.findByText("City not found or API error.")).toBeInTheDocument();
   });
 });
