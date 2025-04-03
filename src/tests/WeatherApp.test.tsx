@@ -41,6 +41,7 @@ describe("WeatherApp", () => {
     });
 
     fireEvent.click(screen.getByText("Get Weather"));
+
     await waitFor(() =>
       expect(screen.getByText("City not found or API error.")).toBeInTheDocument()
     );
